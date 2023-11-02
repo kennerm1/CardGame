@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Solitaire : MonoBehaviour
 {
@@ -24,10 +25,11 @@ public class Solitaire : MonoBehaviour
 
     public List<string> deck;
 
-    private static Random rng = new Random();
+    private int randRange;
 
     void Start()
     {
+        bottoms = new List<string>[] { bottom0, bottom1, bottom2, bottom3, bottom4, bottom5, bottom6 };
         PlayCards();
     }
 
@@ -41,6 +43,7 @@ public class Solitaire : MonoBehaviour
         {
             print(card);
         }
+        SolitaireSort();
         SolitaireDeal();
     }
 
@@ -54,16 +57,16 @@ public class Solitaire : MonoBehaviour
                 newDeck.Add(s + v);
             }
         }
-        Return newDeck;
+        return newDeck;
     }
 
     void Shuffle<T>(List<T> list)
     {
-        system.Random random = new System.Random();
+        randRange = Random.Range(0, 51);
         int n = list.Count;
         while(n > 1)
         {
-            int k = random.Next(n);
+            int k = randRange.Next(n);
             n--;
             T temp = list[k];
             list[k] = list[n];
@@ -73,16 +76,35 @@ public class Solitaire : MonoBehaviour
 
     void SolitaireDeal()
     {
-        float yOffset = 0;
-        float zOffset = 0.03f;
-        foreach (string card in deck)
+        for (int i = 0; i < 7; i++)
         {
-            GameObject newCard = Instantiate(cardPrefab, new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z - zOffset), Quaternion.identity);
-            newCard.name = card;
-            newCard.GetComponent<Selectable>().faceUp = true;
 
-            yOffset = yOffset + 0.1f;
-            zOffset = zOffset + 0.03f;
+            float yOffset = 0;
+            float zOffset = 0.03f;
+            foreach (string card in bottoms[i])
+            {
+                GameObject newCard = Instantiate(cardPrefab, new Vector3(bottmPos[i].transform.position.x, bottomPos[i].transform.position.y - yOffset, bottomPos[i].transform.position.z - zOffset), Quaternion.identity, bottomPos[i].transform);
+                newCard.name = card;
+                if (card == bottoms[i][bottoms[i].Count - 1])
+                {
+                    newCard.GetComponent<Selectable>().faceUp = true;
+                }
+
+                yOffset = yOffset + 0.1f;
+                zOffset = zOffset + 0.03f;
+            }
+        }
+    }
+
+    void SolitaireSort()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = i; j < 7; j++)
+            {
+                bottoms[j].Add(deck.Last<string>());
+                deck.RemoveAt(deck.Count - 1);
+            }
         }
     }
 

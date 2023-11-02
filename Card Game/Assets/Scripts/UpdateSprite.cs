@@ -18,8 +18,8 @@ public class UpdateSprite : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         selectable = GetComponent<Selectable>();
 
-        list<string> deck = solitaire.GenerateDeck();
-        solitaire.FindObjectOfType<Solitaire>();
+        List<string> deck = Solitaire.GenerateDeck();
+        Solitaire.FindObjectOfType<Solitaire>();
 
         int i = 0;
         foreach (string card in deck)
