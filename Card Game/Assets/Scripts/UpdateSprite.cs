@@ -15,9 +15,6 @@ public class UpdateSprite : MonoBehaviour
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
-        selectable = GetComponent<Selectable>();
-
         List<string> deck = Solitaire.GenerateDeck();
         Solitaire.FindObjectOfType<Solitaire>();
 
@@ -26,11 +23,14 @@ public class UpdateSprite : MonoBehaviour
         {
             if (this.name == card)
             {
+                Debug.Log(card);
                 cardFace = solitaire.cardFaces[i];
                 break;
             }
             i++;
         }
+        sr = GetComponent<SpriteRenderer>();
+        selectable = GetComponent<Selectable>();
     }
 
     void Update()
