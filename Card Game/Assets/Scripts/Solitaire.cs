@@ -88,7 +88,8 @@ public class Solitaire : MonoBehaviour
             {
                 GameObject newCard = Instantiate(cardPrefab, new Vector3(bottomPos[i].transform.position.x, bottomPos[i].transform.position.y - yOffset, bottomPos[i].transform.position.z - zOffset), Quaternion.identity, bottomPos[i].transform);
                 newCard.name = card;//names the card so it can be referenced later
-                if (card == bottoms.ElementAt(i)[bottoms.ElementAt(i).Count - 1])
+                if (card == bottoms[i].ElementAt(bottoms[i].Count -1))
+                    
                 {
                     newCard.GetComponent<Selectable>().faceUp = true;
                 }
@@ -128,5 +129,43 @@ public class Solitaire : MonoBehaviour
         drawnCard.transform.position = new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, drawnPos.transform.position.z); // move the new first card to the right pos
         drawnCard.GetComponent<Selectable>().faceUp = true; // flip the new first card
     }
+    /* This is only psuedocode for now since I don't know how its going to mesh with other functions
+    // Checks the values of the cards being stacked, only call after determining suit elsewhere
+    private void CheckPileValue(String v)
+    {
+        if(values.indexof(v) == values.indexof(TopCardOnPile'sValue - 1))
+        {
+            move card to new piles location + yOffset
+            logically place card into new pile
+            logically remove card from old pile
+       }
+    }
+    
+    // takes two string inputs, the suit and the value
+    void CheckBottomPile(String s, String v) // checks to make sure that the card being added is the correct suit for the bottom piles
+    {
+        if(s == "C" || s == "S")
+        {
+            if(TopCardOnPile'sSuit == "D" || TopCardOnPile'sSuit == "H")
+                {
+                    CheckPileValue(v);
+                }
+        }
+        else
+        {
+            if(TopCardOnPile'sSuit == "C" || TopCardOnPile'sSuit == "S")
+                {
+                    CheckPileValue(v);
+                }
+        }   
+    }
+    void CheckTopPile(String s, String v) // checks to make sure that the card being added is the correct suit for the top piles
+    {
+        if(s == TopCardOnPile'sSuit)
+        {
+            CheckPileValue(v); //needs to check in reverse order
+        }   
+    }
+    */
 
 }
