@@ -26,6 +26,11 @@ public class Solitaire : MonoBehaviour
     private List<string> bottom5 = new List<string>();
     private List<string> bottom6 = new List<string>();
 
+    private List<string> top0 = new List<string>();
+    private List<string> top1 = new List<string>();
+    private List<string> top2 = new List<string>();
+    private List<string> top3 = new List<string>();
+
     public List<string> deck;
 
     private int randRange;
@@ -33,6 +38,7 @@ public class Solitaire : MonoBehaviour
     void Start()
     {
         bottoms = new List<string>[] { bottom0, bottom1, bottom2, bottom3, bottom4, bottom5, bottom6 };
+        tops = new List<string>[] { top0, top1, top2, top3 };
         PlayCards();
     }
 
@@ -129,24 +135,27 @@ public class Solitaire : MonoBehaviour
         drawnCard.transform.position = new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, drawnPos.transform.position.z); // move the new first card to the right pos
         drawnCard.GetComponent<Selectable>().faceUp = true; // flip the new first card
     }
-    /* This is only psuedocode for now since I don't know how its going to mesh with other functions
+    
     // Checks the values of the cards being stacked, only call after determining suit elsewhere
-    private void CheckPileValue(string cardName)
+    private void CheckPileValue(string cardName, int mode, int pileNum)
     {
         string s = cardName[0];
         string v = cardName[1];
+        string topCardName = bottoms[pileNum].Last();
+        GameObject topCard = GameObject.Find(topCardName);
+        string topValue = topCard[1];
         List<string> stack = new List<string>();
         if(mode == 1)
         {
-            if(values.indexof(v) == values.indexof(TopCardOnPile'sValue - 1)) //must ensure that a blank pile has a value of 14 so that only king can be placed
+            if(values.IndexOf(v) == values.IndexOf(topValue) - 1) || (bottoms[pileNum].Count == 0 && values.IndexOf(v) == 12)) //must ensure that a blank pile has a value of 14 so that only king can be placed
             {
                 GameObject card = GameObject.Find(cardName);
-                card.transform.position = new Vector3(TopCardOnPile.transform.position.x, TopCardOnPile.transform.position.y + 0.1f, TopCardOnPile.transform.position.z + 0.03f);
-                for(int i = 0; i < 7; i++)
+                card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y + 0.1f, topCard.transform.position.z + 0.03f);
+                for(int i = 0; i < 7; i++) //for every pile
                 {
-                    if(bottoms[i].Contains(cardName)
+                    if(bottoms[i].Contains(cardName)) //check if that pile contains the old card
                     {
-                        for(int j = bottoms[i].IndexOf(cardName); j < bottoms[i].Count; j++)
+                        for(int j = bottoms[i].IndexOf(cardName); j < bottoms[i].Count; j++) //create a stack of the cards being moved and remove that stack from the old pile
                         {
                             stack.Add(bottoms[i].ElementAt(j));
                             bottoms[i].RemoveAt(bottoms[i].IndexOf(j));
@@ -154,56 +163,60 @@ public class Solitaire : MonoBehaviour
                         break;
                     }
                 }
-                for(int i = 0; i < 7; i++)
+                for(int i = 0; i < stack.Count; i++) //add the stack to the new pile
                 {
-                    if(bottoms[i].Contains(TopCardOnPile'sName))
+                    bottoms[pileNum].Add(stack.IndexOf(i));
+                }   
+           }
+        }
+        else
+        {
+            if(values.IndexOf(v) == values.IndexOf(topValue + 1) || (tops[pileNum].Count == 0 && values.IndexOf(v) == 0)) //empty pile needs to have a value of 0 so that only ace can be placed
+            {
+                GameObject card = GameObject.Find(cardName);
+                card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y + 0.1f, topCard.transform.position.z + 0.03f);
+                tops[i].Add(cardName);
+                 for(int i = 0; i < 7; i++) //for every pile
+                {
+                    if(bottoms[i].Contains(cardName)) //check if that pile contains the old card
                     {
-                        for(int j = 0; j < stack.Count; j++)
-                        {
-                            bottoms[i].Add(stack.IndexOf(j));
-                        }
+                        bottoms[i].RemoveAt(bottoms[i].IndexOf(cardName));
+                        break;
                     }
                 }
            }
         }
-        else
-        {
-            if(values.indexof(v) == values.indexof(TopCardOnPile'sValue + 1))
-            {
-                move card to new piles location + yOffset
-                logically place card into new pile
-                logically remove card from old pile
-           }
-        }
     }
     
-    void CheckBottomPile(string cardName) // checks to make sure that the card being added is the correct suit for the bottom piles
+    void CheckBottomPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the bottom piles
     {
         string s = cardName[0];
+        string topCardName = bottoms[pileNum].Last();
+        string topSuit = topCard[0];
         if(s == "C" || s == "S")
         {
-            if(TopCardOnPile'sSuit == "D" || TopCardOnPile'sSuit == "H")
+            if(topSuit == "D" || topSuit == "H" || topSuit == null)
                 {
-                    CheckPileValue(cardName, 1);
+                    CheckPileValue(cardName, 1, pileNum);
                 }
         }
         else
         {
-            if(TopCardOnPile'sSuit == "C" || TopCardOnPile'sSuit == "S")
+            if(topSuit == "C" || topSuit == "S" || topSuit == null)
                 {
-                    CheckPileValue(cardName, 1);
+                    CheckPileValue(cardName, 1, pileNum);
                 }
         }   
     }
     
-    void CheckTopPile(string cardName) // checks to make sure that the card being added is the correct suit for the top piles
+    void CheckTopPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the top piles
     {
+        string topCardName = bottoms[pileNum].Last();
+        string topSuit = topCard[0];
         string s = cardName[0];
-        if(s == TopCardOnPile'sSuit)
+        if(s == topSuit || topSuit == null)
         {
-            CheckPileValue(cardName, 2);
+            CheckPileValue(cardName, 2, pileNum);
         }   
     }
-    */
-
 }
