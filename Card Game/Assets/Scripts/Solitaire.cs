@@ -131,39 +131,77 @@ public class Solitaire : MonoBehaviour
     }
     /* This is only psuedocode for now since I don't know how its going to mesh with other functions
     // Checks the values of the cards being stacked, only call after determining suit elsewhere
-    private void CheckPileValue(String v)
+    private void CheckPileValue(string cardName)
     {
-        if(values.indexof(v) == values.indexof(TopCardOnPile'sValue - 1))
+        string s = cardName[0];
+        string v = cardName[1];
+        List<string> stack = new List<string>();
+        if(mode == 1)
         {
-            move card to new piles location + yOffset
-            logically place card into new pile
-            logically remove card from old pile
-       }
+            if(values.indexof(v) == values.indexof(TopCardOnPile'sValue - 1)) //must ensure that a blank pile has a value of 14 so that only king can be placed
+            {
+                GameObject card = GameObject.Find(cardName);
+                card.transform.position = new Vector3(TopCardOnPile.transform.position.x, TopCardOnPile.transform.position.y + 0.1f, TopCardOnPile.transform.position.z + 0.03f);
+                for(int i = 0; i < 7; i++)
+                {
+                    if(bottoms[i].Contains(cardName)
+                    {
+                        for(int j = bottoms[i].IndexOf(cardName); j < bottoms[i].Count; j++)
+                        {
+                            stack.Add(bottoms[i].ElementAt(j));
+                            bottoms[i].RemoveAt(bottoms[i].IndexOf(j));
+                        }
+                        break;
+                    }
+                }
+                for(int i = 0; i < 7; i++)
+                {
+                    if(bottoms[i].Contains(TopCardOnPile'sName))
+                    {
+                        for(int j = 0; j < stack.Count; j++)
+                        {
+                            bottoms[i].Add(stack.IndexOf(j));
+                        }
+                    }
+                }
+           }
+        }
+        else
+        {
+            if(values.indexof(v) == values.indexof(TopCardOnPile'sValue + 1))
+            {
+                move card to new piles location + yOffset
+                logically place card into new pile
+                logically remove card from old pile
+           }
+        }
     }
     
-    // takes two string inputs, the suit and the value
-    void CheckBottomPile(String s, String v) // checks to make sure that the card being added is the correct suit for the bottom piles
+    void CheckBottomPile(string cardName) // checks to make sure that the card being added is the correct suit for the bottom piles
     {
+        string s = cardName[0];
         if(s == "C" || s == "S")
         {
             if(TopCardOnPile'sSuit == "D" || TopCardOnPile'sSuit == "H")
                 {
-                    CheckPileValue(v);
+                    CheckPileValue(cardName, 1);
                 }
         }
         else
         {
             if(TopCardOnPile'sSuit == "C" || TopCardOnPile'sSuit == "S")
                 {
-                    CheckPileValue(v);
+                    CheckPileValue(cardName, 1);
                 }
         }   
     }
-    void CheckTopPile(String s, String v) // checks to make sure that the card being added is the correct suit for the top piles
+    
+    void CheckTopPile(string cardName) // checks to make sure that the card being added is the correct suit for the top piles
     {
+        string s = cardName[0];
         if(s == TopCardOnPile'sSuit)
         {
-            CheckPileValue(v); //needs to check in reverse order
+            CheckPileValue(cardName, 2);
         }   
     }
     */
