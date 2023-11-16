@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class Solitaire : MonoBehaviour
 {
@@ -139,15 +140,15 @@ public class Solitaire : MonoBehaviour
     // Checks the values of the cards being stacked, only call after determining suit elsewhere
     private void CheckPileValue(string cardName, int mode, int pileNum)
     {
-        string s = cardName[0];
-        string v = cardName[1];
+        string s = cardName[0].ToString();
+        string v = cardName[1].ToString();
         string topCardName = bottoms[pileNum].Last();
         GameObject topCard = GameObject.Find(topCardName);
-        string topValue = topCard[1];
+        string topValue = topCardName[1].ToString();
         List<string> stack = new List<string>();
         if(mode == 1)
         {
-            if(values.IndexOf(v) == values.IndexOf(topValue) - 1) || (bottoms[pileNum].Count == 0 && values.IndexOf(v) == 12)) //must ensure that a blank pile has a value of 14 so that only king can be placed
+            if(Array.IndexOf(values, v) == Array.IndexOf(values, topValue) - 1 || (bottoms[pileNum].Count == 0 && Array.IndexOf(values, v) == 12)) //must ensure that a blank pile has a value of 14 so that only king can be placed
             {
                 GameObject card = GameObject.Find(cardName);
                 card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y + 0.1f, topCard.transform.position.z + 0.03f);
@@ -158,24 +159,24 @@ public class Solitaire : MonoBehaviour
                         for(int j = bottoms[i].IndexOf(cardName); j < bottoms[i].Count; j++) //create a stack of the cards being moved and remove that stack from the old pile
                         {
                             stack.Add(bottoms[i].ElementAt(j));
-                            bottoms[i].RemoveAt(bottoms[i].IndexOf(j));
+                            bottoms[i].RemoveAt(j);
                         }
                         break;
                     }
                 }
                 for(int i = 0; i < stack.Count; i++) //add the stack to the new pile
                 {
-                    bottoms[pileNum].Add(stack.IndexOf(i));
+                    bottoms[pileNum].Add(stack.ElementAt(stack.IndexOf(i)));
                 }   
            }
         }
         else
         {
-            if(values.IndexOf(v) == values.IndexOf(topValue + 1) || (tops[pileNum].Count == 0 && values.IndexOf(v) == 0)) //empty pile needs to have a value of 0 so that only ace can be placed
+            if(Array.IndexOf(values, v) == Array.IndexOf(values, topValue + 1) || (tops[pileNum].Count == 0 && Array.IndexOf(values, v) == 0)) //empty pile needs to have a value of 0 so that only ace can be placed
             {
                 GameObject card = GameObject.Find(cardName);
                 card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y + 0.1f, topCard.transform.position.z + 0.03f);
-                tops[i].Add(cardName);
+                tops[pileNum].Add(cardName);
                  for(int i = 0; i < 7; i++) //for every pile
                 {
                     if(bottoms[i].Contains(cardName)) //check if that pile contains the old card
@@ -190,9 +191,9 @@ public class Solitaire : MonoBehaviour
     
     void CheckBottomPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the bottom piles
     {
-        string s = cardName[0];
+        string s = cardName[0].ToString();
         string topCardName = bottoms[pileNum].Last();
-        string topSuit = topCard[0];
+        string topSuit = topCardName[0];
         if(s == "C" || s == "S")
         {
             if(topSuit == "D" || topSuit == "H" || topSuit == null)
@@ -212,7 +213,7 @@ public class Solitaire : MonoBehaviour
     void CheckTopPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the top piles
     {
         string topCardName = bottoms[pileNum].Last();
-        string topSuit = topCard[0];
+        string topSuit = topCardName[0];
         string s = cardName[0];
         if(s == topSuit || topSuit == null)
         {
