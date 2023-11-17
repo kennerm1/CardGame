@@ -10,6 +10,9 @@ public class Selectable : MonoBehaviour
     public bool faceUp = false;
     public bool top = false;
     public bool inDeckPile = false;
+    public bool inTopPiles = false;
+    public bool inTableau = false;
+    public int pile;
 
     private string valueString;
 
@@ -31,6 +34,6 @@ public class Selectable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
