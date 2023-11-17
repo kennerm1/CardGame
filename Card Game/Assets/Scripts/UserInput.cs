@@ -6,12 +6,14 @@ using System.Linq;
 public class UserInput : MonoBehaviour
 {
     public GameObject slot1;
+    public GameObject slot2;
     private Solitaire solitaire;
 
     void Start()
     {
         solitaire = FindObjectOfType<Solitaire>();
         slot1 = this.gameObject;
+        slot2 = this.gameObject;
     }
 
     void Update()
@@ -35,7 +37,7 @@ public class UserInput : MonoBehaviour
 
                 if (hit.collider.CompareTag("Card"))
                 {
-                    Card();
+                    Card(hit.collider.gameObject);
                 }
 
                 if (hit.collider.CompareTag("Top"))
@@ -61,30 +63,41 @@ public class UserInput : MonoBehaviour
     {
         Debug.Log("Clicked on card");
 
-        if (!selected.GetComponent<Selectable>().faceUp)
+        if (!selected.GetComponent<Selectable>().faceUp) //flips the card up if possible
         {
-            if (!Blocked(selected))
+            if (!solitaire.Blocked(selected))
             {
-                selected.GetComponent <Selectable>().faceUp = true;
+                selected.GetComponent<Selectable>().faceUp = true;
                 slot1 = this.gameObject;
             }
         }
 
-        if (slot1 == this.gameObject)
+        if (slot1 == this.gameObject) //selects card if nothing selected
         {
             slot1 = selected;
+            Debug.Log("Selected first card");
         }
 
-        else if (slot1 != selected)
+        else if (slot1 != selected) //if card is already selected, attempt to move if possible, else select new card
         {
-            if (Stackable(selected))
+            slot2 = selected;
+            Debug.Log("Selected second card");
+            if (slot2.GetComponent<Selectable>().inTableau)
             {
-                Stack(selected);
+                Debug.Log("In tableau");
+                if (!solitaire.CheckBottomPile(slot1.name, slot2.GetComponent<Selectable>().pile))
+                {
+                    slot1 = selected;
+                    slot2 = this.gameObject;
+                }
             }
-
-            else
+            else if (slot2.GetComponent<Selectable>().inTopPiles)
             {
-                slot1 = selected;
+                if (!solitaire.CheckTopPile(slot1.name, slot2.GetComponent<Selectable>().pile))
+                {
+                    slot1 = selected;
+                    slot2 = this.gameObject;
+                }
             }
         }
     }
@@ -212,35 +225,5 @@ public class UserInput : MonoBehaviour
 
     }*/
 
-    bool Blocked(GameObject selected)
-    {
-        Selected s2 = selected.GetComponent<Selectable>();
-        if (s2.inDeckPile == true)
-        {
-            if (s2.name == solitaire.CheckPileValue.Last())
-            {
-                return false;
-            }
-
-            else
-            {
-                print(s2.name + "is blocked by" + solitaire.CheckPileValue.Last());
-                return true;
-            }
-        }
-
-        else
-        {
-            if (s2.name == solitaire.bottoms[s2.row].Last())
-            {
-                return false;
-            }
-
-            else
-            {
-                return true;
-            }
-        }
-    }
 
 }

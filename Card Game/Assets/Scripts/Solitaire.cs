@@ -14,8 +14,8 @@ public class Solitaire : MonoBehaviour
     public GameObject drawnPos;
     public GameObject drawnCard;
 
-    public static string[] suits = new string[] {"C", "D", "H", "S"};
-    public static string[] values = new string[] {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    public static string[] suits = new string[] { "C", "D", "H", "S" };
+    public static string[] values = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
     public List<string>[] bottoms;
     public List<string>[] tops;
 
@@ -60,9 +60,9 @@ public class Solitaire : MonoBehaviour
     public static List<string> GenerateDeck()// creates the deck based off of the template deck
     {
         List<string> newDeck = new List<string>();
-        foreach(string s in suits)
+        foreach (string s in suits)
         {
-            foreach(string v in values)
+            foreach (string v in values)
             {
                 newDeck.Add(s + v);
             }
@@ -74,7 +74,7 @@ public class Solitaire : MonoBehaviour
     {
         System.Random random = new System.Random();
         int n = list.Count;
-        while(n > 1)
+        while (n > 1)
         {
             int k = random.Next(n);
             n--;
@@ -96,8 +96,10 @@ public class Solitaire : MonoBehaviour
                 GameObject newCard = Instantiate(cardPrefab, new Vector3(bottomPos[i].transform.position.x, bottomPos[i].transform.position.y - yOffset, bottomPos[i].transform.position.z - zOffset), Quaternion.identity, bottomPos[i].transform);
                 newCard.name = card;//names the card so it can be referenced later
                 newCard.GetComponent<Selectable>().row = i;
-                if (card == bottoms[i].ElementAt(bottoms[i].Count -1))
-                    
+                newCard.GetComponent<Selectable>().inTableau = true;
+                newCard.GetComponent<Selectable>().pile = i;
+                if (card == bottoms[i].ElementAt(bottoms[i].Count - 1))
+
                 {
                     newCard.GetComponent<Selectable>().faceUp = true;
                 }
@@ -139,7 +141,7 @@ public class Solitaire : MonoBehaviour
     }
 
     // Checks the values of the cards being stacked, only call after determining suit elsewhere
-    private void CheckPileValue(string cardName, int mode, int pileNum)
+    private bool CheckPileValue(string cardName, int mode, int pileNum)
     {
         string s = cardName[0].ToString();
         string v = cardName[1].ToString();
@@ -149,10 +151,14 @@ public class Solitaire : MonoBehaviour
         List<string> stack = new List<string>();
         if (mode == 1)
         {
+            Debug.Log(Array.IndexOf(values, v));
+            Debug.Log(Array.IndexOf(values, topValue));
             if (Array.IndexOf(values, v) == Array.IndexOf(values, topValue) - 1 || (bottoms[pileNum].Count == 0 && Array.IndexOf(values, v) == 12)) //must ensure that a blank pile has a value of 14 so that only king can be placed
             {
+                Debug.Log("Correct value");
                 GameObject card = GameObject.Find(cardName);
-                card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y + 0.1f, topCard.transform.position.z + 0.03f);
+                card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y - 0.1f, topCard.transform.position.z - 0.03f);
+                card.GetComponent<Selectable>().inTableau = true;
                 for (int i = 0; i < 7; i++) //for every pile
                 {
                     if (bottoms[i].Contains(cardName)) //check if that pile contains the old card
@@ -161,6 +167,7 @@ public class Solitaire : MonoBehaviour
                         {
                             stack.Add(bottoms[i].ElementAt(j));
                             bottoms[i].RemoveAt(j);
+                            card.GetComponent<Selectable>().pile = i;
                         }
                         break;
                     }
@@ -169,6 +176,7 @@ public class Solitaire : MonoBehaviour
                 {
                     bottoms[pileNum].Add(stack.ElementAt(i));
                 }
+                return true;
             }
         }
         else
@@ -176,8 +184,10 @@ public class Solitaire : MonoBehaviour
             if (Array.IndexOf(values, v) == Array.IndexOf(values, topValue + 1) || (tops[pileNum].Count == 0 && Array.IndexOf(values, v) == 0)) //empty pile needs to have a value of 0 so that only ace can be placed
             {
                 GameObject card = GameObject.Find(cardName);
-                card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y + 0.1f, topCard.transform.position.z + 0.03f);
+                card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y - 0.1f, topCard.transform.position.z - 0.03f);
                 tops[pileNum].Add(cardName);
+                card.GetComponent<Selectable>().pile = pileNum;
+                card.GetComponent<Selectable>().inTopPiles = true;
                 for (int i = 0; i < 7; i++) //for every pile
                 {
                     if (bottoms[i].Contains(cardName)) //check if that pile contains the old card
@@ -186,40 +196,79 @@ public class Solitaire : MonoBehaviour
                         break;
                     }
                 }
+                return true;
             }
         }
+        return false;
     }
 
-    public void CheckBottomPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the bottom piles
+    public bool CheckBottomPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the bottom piles
     {
         string s = cardName[0].ToString();
         string topCardName = bottoms[pileNum].Last();
         string topSuit = topCardName[0].ToString();
+        Debug.Log(s);
+        Debug.Log(topSuit);
         if (s == "C" || s == "S")
         {
             if (topSuit == "D" || topSuit == "H" || topSuit == null)
             {
-                CheckPileValue(cardName, 1, pileNum);
+                Debug.Log("Correct suit");
+                return CheckPileValue(cardName, 1, pileNum);
             }
         }
         else
         {
             if (topSuit == "C" || topSuit == "S" || topSuit == null)
             {
-                CheckPileValue(cardName, 1, pileNum);
+                Debug.Log("Correct suit");
+                return CheckPileValue(cardName, 1, pileNum);
             }
         }
+        return false;
     }
 
-    public void CheckTopPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the top piles
+    public bool CheckTopPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the top piles
     {
         string topCardName = bottoms[pileNum].Last();
         string topSuit = topCardName[0].ToString();
         string s = cardName[0].ToString();
         if (s == topSuit || topSuit == null)
         {
-            CheckPileValue(cardName, 2, pileNum);
+            return CheckPileValue(cardName, 2, pileNum);
         }
+        return false;
     }
 
+    public bool Blocked(GameObject selected)
+    {
+        Selectable selectable = selected.GetComponent<Selectable>();
+        if (selectable.inTableau)
+        {
+            if (selected.name == bottoms[selectable.pile].Last())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if (selectable.inTopPiles)
+        {
+            if (selected.name == tops[selectable.pile].Last())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            print("In neither tableau nor tops");
+            return true;
+        }
+    }
 }
