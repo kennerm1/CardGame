@@ -10,13 +10,15 @@ public class UpdateSprite : MonoBehaviour
     private SpriteRenderer sr;
     private Selectable selectable;
     private Solitaire solitaire;
+    private UserInput userInput;
 
     
 
     void Start()
     {
         List<string> deck = Solitaire.GenerateDeck();
-        Solitaire.FindObjectOfType<Solitaire>();
+        solitaire = FindObjectOfType<Solitaire>();
+        userInput = FindObjectOfType<UserInput>();
 
         int i = 0;
         foreach (string card in deck)

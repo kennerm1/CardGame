@@ -14,8 +14,8 @@ public class Solitaire : MonoBehaviour
     public GameObject drawnPos;
     public GameObject drawnCard;
 
-    public static string[] suits = new string[] { "C", "D", "H", "S" };
-    public static string[] values = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+    public static string[] suits = new string[] {"C", "D", "H", "S"};
+    public static string[] values = new string[] {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     public List<string>[] bottoms;
     public List<string>[] tops;
 
@@ -49,10 +49,10 @@ public class Solitaire : MonoBehaviour
         Shuffle(deck);
 
         //test cards in deck:
-        foreach (string card in deck)
+        /*foreach(string card in deck)
         {
             print(card);
-        }
+        }*/
         SolitaireSort();
         SolitaireDeal();
     }
@@ -60,9 +60,9 @@ public class Solitaire : MonoBehaviour
     public static List<string> GenerateDeck()// creates the deck based off of the template deck
     {
         List<string> newDeck = new List<string>();
-        foreach (string s in suits)
+        foreach(string s in suits)
         {
-            foreach (string v in values)
+            foreach(string v in values)
             {
                 newDeck.Add(s + v);
             }
@@ -74,7 +74,7 @@ public class Solitaire : MonoBehaviour
     {
         System.Random random = new System.Random();
         int n = list.Count;
-        while (n > 1)
+        while(n > 1)
         {
             int k = random.Next(n);
             n--;
@@ -95,8 +95,9 @@ public class Solitaire : MonoBehaviour
             {
                 GameObject newCard = Instantiate(cardPrefab, new Vector3(bottomPos[i].transform.position.x, bottomPos[i].transform.position.y - yOffset, bottomPos[i].transform.position.z - zOffset), Quaternion.identity, bottomPos[i].transform);
                 newCard.name = card;//names the card so it can be referenced later
-                if (card == bottoms[i].ElementAt(bottoms[i].Count - 1))
-
+                newCard.GetComponent<Selectable>().row = i;
+                if (card == bottoms[i].ElementAt(bottoms[i].Count -1))
+                    
                 {
                     newCard.GetComponent<Selectable>().faceUp = true;
                 }
@@ -189,7 +190,7 @@ public class Solitaire : MonoBehaviour
         }
     }
 
-    void CheckBottomPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the bottom piles
+    public void CheckBottomPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the bottom piles
     {
         string s = cardName[0].ToString();
         string topCardName = bottoms[pileNum].Last();
@@ -210,7 +211,7 @@ public class Solitaire : MonoBehaviour
         }
     }
 
-    void CheckTopPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the top piles
+    public void CheckTopPile(string cardName, int pileNum) // checks to make sure that the card being added is the correct suit for the top piles
     {
         string topCardName = bottoms[pileNum].Last();
         string topSuit = topCardName[0].ToString();
@@ -220,4 +221,5 @@ public class Solitaire : MonoBehaviour
             CheckPileValue(cardName, 2, pileNum);
         }
     }
+
 }
