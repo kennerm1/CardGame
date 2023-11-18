@@ -32,7 +32,7 @@ public class UserInput : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Deck"))
                 {
-                    Deck();
+                   //Deck();
                 }
 
                 if (hit.collider.CompareTag("Card"))
@@ -42,12 +42,12 @@ public class UserInput : MonoBehaviour
 
                 if (hit.collider.CompareTag("Top"))
                 {
-                    Top();
+                    //Top();
                 }
 
                 if (hit.collider.CompareTag("Tableau"))
                 {
-                    Tableau();
+                    //Tableau();
                 }
             }
         }
@@ -67,7 +67,7 @@ public class UserInput : MonoBehaviour
         {
             if (!solitaire.Blocked(selected))
             {
-                selected.GetComponent<Selectable>().faceUp = true;
+                selected.GetComponent <Selectable>().faceUp = true;
                 slot1 = this.gameObject;
             }
         }
@@ -91,6 +91,7 @@ public class UserInput : MonoBehaviour
                     slot2 = this.gameObject;
                 }
             }
+
             else if (slot2.GetComponent<Selectable>().inTopPiles)
             {
                 if (!solitaire.CheckTopPile(slot1.name, slot2.GetComponent<Selectable>().pile))
@@ -100,9 +101,9 @@ public class UserInput : MonoBehaviour
                 }
             }
         }
-    }
+    
 
-    void Top()
+    /*void Top()
     {
         Debug.Log("Clicked on top");
     }
@@ -171,7 +172,7 @@ public class UserInput : MonoBehaviour
 
     }
 
-    /*void Stack(GameObject selected)
+    void Stack(GameObject selected)
     {
         Selectable s1 = slot1.GetComponent<Selectable>();
         Selectable s2 = selected.GetComponent<Selectable>();
@@ -223,7 +224,38 @@ public class UserInput : MonoBehaviour
 
         slot1 = this.gameObject;
 
-    }*/
+    }
 
+    bool Blocked(GameObject selected)
+    {
+        Selected s2 = selected.GetComponent<Selectable>();
+        if (s2.inDeckPile == true)
+        {
+            if (s2.name == solitaire.CheckPileValue.Last())
+            {
+                return false;
+            }
+
+            else
+            {
+                print(s2.name + "is blocked by" + solitaire.CheckPileValue.Last());
+                return true;
+            }
+        }
+
+        else
+        {
+            if (s2.name == solitaire.bottoms[s2.row].Last())
+            {
+                return false;
+            }
+
+            else
+            {
+                return true;
+            }
+        }
+      }*/
+    }
 
 }

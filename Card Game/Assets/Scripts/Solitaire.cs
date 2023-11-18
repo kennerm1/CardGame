@@ -98,8 +98,8 @@ public class Solitaire : MonoBehaviour
                 newCard.GetComponent<Selectable>().row = i;
                 newCard.GetComponent<Selectable>().inTableau = true;
                 newCard.GetComponent<Selectable>().pile = i;
-                if (card == bottoms[i].ElementAt(bottoms[i].Count - 1))
-
+                if (card == bottoms[i].ElementAt(bottoms[i].Count -1))
+                    
                 {
                     newCard.GetComponent<Selectable>().faceUp = true;
                 }
@@ -153,12 +153,15 @@ public class Solitaire : MonoBehaviour
         {
             Debug.Log(Array.IndexOf(values, v));
             Debug.Log(Array.IndexOf(values, topValue));
+
             if (Array.IndexOf(values, v) == Array.IndexOf(values, topValue) - 1 || (bottoms[pileNum].Count == 0 && Array.IndexOf(values, v) == 12)) //must ensure that a blank pile has a value of 14 so that only king can be placed
             {
                 Debug.Log("Correct value");
+
                 GameObject card = GameObject.Find(cardName);
                 card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y - 0.1f, topCard.transform.position.z - 0.03f);
                 card.GetComponent<Selectable>().inTableau = true;
+
                 for (int i = 0; i < 7; i++) //for every pile
                 {
                     if (bottoms[i].Contains(cardName)) //check if that pile contains the old card
@@ -186,8 +189,10 @@ public class Solitaire : MonoBehaviour
                 GameObject card = GameObject.Find(cardName);
                 card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y - 0.1f, topCard.transform.position.z - 0.03f);
                 tops[pileNum].Add(cardName);
+
                 card.GetComponent<Selectable>().pile = pileNum;
                 card.GetComponent<Selectable>().inTopPiles = true;
+
                 for (int i = 0; i < 7; i++) //for every pile
                 {
                     if (bottoms[i].Contains(cardName)) //check if that pile contains the old card
@@ -207,8 +212,10 @@ public class Solitaire : MonoBehaviour
         string s = cardName[0].ToString();
         string topCardName = bottoms[pileNum].Last();
         string topSuit = topCardName[0].ToString();
+
         Debug.Log(s);
         Debug.Log(topSuit);
+
         if (s == "C" || s == "S")
         {
             if (topSuit == "D" || topSuit == "H" || topSuit == null)
@@ -271,4 +278,5 @@ public class Solitaire : MonoBehaviour
             return true;
         }
     }
+
 }

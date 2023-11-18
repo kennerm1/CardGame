@@ -824,7 +824,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.19215687, g: 0.4745098, b: 0.27450982, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2229,7 +2229,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fccc2bdc8a963f64b92445680e1af656, type: 3}
   - {fileID: 21300000, guid: f49e0a9e0c25bf848ae154ff9d27c128, type: 3}
   - {fileID: 21300000, guid: 325ebdcb8a3d85d4fafa2bdbfd1a8a62, type: 3}
-  - {fileID: 21300000, guid: db1dba522ae4d30469fd35e2d19fce89, type: 3}
+  - {fileID: 21300000, guid: 6d755f8057d8f774aa5c3b4c5e39221e, type: 3}
   - {fileID: 21300000, guid: 008161450007f074080b913778e034da, type: 3}
   - {fileID: 21300000, guid: 4c4e1e36ce5a6d644be6c67e7cde90ee, type: 3}
   - {fileID: 21300000, guid: 5c0658b463389ca478d4e91c5efeba0d, type: 3}
@@ -2287,6 +2287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 459eea5306ef896498107f61338bb698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slot1: {fileID: 0}
+  slot2: {fileID: 0}
 --- !u!1 &1924632485
 GameObject:
   m_ObjectHideFlags: 0
