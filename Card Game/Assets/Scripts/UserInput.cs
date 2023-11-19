@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using System;
 public class UserInput : MonoBehaviour
 {
     public GameObject slot1;
@@ -32,7 +32,7 @@ public class UserInput : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Deck"))
                 {
-                   //Deck();
+                    Deck(hit.collider.gameObject);
                 }
 
                 if (hit.collider.CompareTag("Card"))
@@ -42,21 +42,21 @@ public class UserInput : MonoBehaviour
 
                 if (hit.collider.CompareTag("Top"))
                 {
-                    //Top();
+                    Top(hit.collider.gameObject);
                 }
 
                 if (hit.collider.CompareTag("Tableau"))
                 {
-                    //Tableau();
+                    Tableau(hit.collider.gameObject);
                 }
             }
         }
     }
 
-    void Deck()
+    void Deck(GameObject selected)
     {
         Debug.Log("Clicked on deck");
-        //solitaire.DealFromDeck();
+        solitaire.DrawNextCard();
     }
 
     void Card(GameObject selected)
@@ -67,7 +67,7 @@ public class UserInput : MonoBehaviour
         {
             if (!solitaire.Blocked(selected))
             {
-                selected.GetComponent <Selectable>().faceUp = true;
+                selected.GetComponent<Selectable>().faceUp = true;
                 slot1 = this.gameObject;
             }
         }
@@ -101,16 +101,30 @@ public class UserInput : MonoBehaviour
                 }
             }
         }
-    
 
-    /*void Top()
+    }
+    void Top(GameObject selected)
     {
         Debug.Log("Clicked on top");
+        if(slot1 != this.gameObject)
+        {
+            string[] name = selected.name.Split('p');
+            int pileNum = Int32.Parse(name[1]);
+            solitaire.CheckTopPile(slot1.name, pileNum);
+            slot1 = this.gameObject;
+        }
     }
 
-    void Tableau()
+    void Tableau(GameObject selected)
     {
         Debug.Log("Clicked on tableau");
+        if (slot1 != this.gameObject)
+        {
+            string[] name = selected.name.Split('p');
+            int pileNum = Int32.Parse(name[1]);
+            solitaire.CheckBottomPile(slot1.name, pileNum);
+            slot1 = this.gameObject;
+        }
     }
 
     bool Stackable(GameObject selected)
@@ -171,7 +185,7 @@ public class UserInput : MonoBehaviour
         return false;
 
     }
-
+    /*
     void Stack(GameObject selected)
     {
         Selectable s1 = slot1.GetComponent<Selectable>();
@@ -255,7 +269,7 @@ public class UserInput : MonoBehaviour
                 return true;
             }
         }
-      }*/
-    }
+      }
+    }*/
 
 }
