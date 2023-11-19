@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,6 +11,10 @@ public class PauseMenu : MonoBehaviour
 
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
+    public GameObject settingsMenu;
+
+    public Button settingsButton;
+    public Button backButton;
 
     void Update()
     {
@@ -49,4 +55,15 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Quitting game...");
         Application.Quit();
     }
+
+    public void onSettingsButton()
+    {
+        settingsMenu.SetActive(true);
+    }
+
+    public void onBackButton()
+    {
+        settingsMenu.SetActive(false);
+    }
+
 }

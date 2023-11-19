@@ -14,6 +14,8 @@ public class Selectable : MonoBehaviour
     public bool inTableau = false;
     public int pile;
 
+    [SerializeField] AudioClip[] _clips;
+
     private string valueString;
 
     // Start is called before the first frame update
@@ -36,4 +38,12 @@ public class Selectable : MonoBehaviour
     {
         
     }
+
+    void OnMouseDown()
+    {
+        int index = UnityEngine.Random.Range(0, _clips.Length);
+        AudioClip clip = _clips[index];
+        GetComponent<AudioSource>().PlayOneShot(clip);
+    }
+
 }
