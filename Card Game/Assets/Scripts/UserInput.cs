@@ -73,7 +73,11 @@ public class UserInput : MonoBehaviour
                 slot1 = this.gameObject;
             }
         }
-
+        if (selected.GetComponent<Selectable>().inDeckPile)
+        {
+            slot1 = this.gameObject;
+            slot2 = this.gameObject;
+        }
         if (slot1 == this.gameObject) //selects card if nothing selected
         {
             slot1 = selected;
@@ -102,6 +106,7 @@ public class UserInput : MonoBehaviour
                     slot2 = this.gameObject;
                 }
             }
+            
         }
 
     }

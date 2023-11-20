@@ -144,7 +144,7 @@ public class Solitaire : MonoBehaviour
             drawnCard.name = deck.ElementAt(0);
             drawnCard.GetComponent<Selectable>().inDeckPile = true;
         }
-        previousCardZ += 0.03f;
+        previousCardZ -= 0.03f;
         Debug.Log(deck.ElementAt(0));
         //drawnCard.transform.position = new Vector3(drawPilePos.transform.position.x, drawPilePos.transform.position.y, drawPilePos.transform.position.z + 0.03f); // move the current revealed card
         deck.Insert(deck.Count - 1, deck.ElementAt(0)); // add a copy of the revealed card to the back
@@ -262,7 +262,7 @@ public class Solitaire : MonoBehaviour
             Debug.Log("" + Array.IndexOf(values, v) + " " + Array.IndexOf(values, topValue));
             if (Array.IndexOf(values, v) == Array.IndexOf(values, topValue) + 1 || (tops[pileNum].Count == 0 && Array.IndexOf(values, v) == 0)) //empty pile needs to have a value of 0 so that only ace can be placed
             {
-                if(pileNum != 0)
+                if(tops[pileNum].Count != 0)
                     card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y, topCard.transform.position.z - 0.03f);
                 else
                     card.transform.position = new Vector3(topPos[pileNum].transform.position.x, topPos[pileNum].transform.position.y, topPos[pileNum].transform.position.z - 0.03f);
