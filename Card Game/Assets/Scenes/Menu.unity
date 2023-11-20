@@ -524,7 +524,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1809217859}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: onSettingsButton
+        m_MethodName: OnSettingsButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -658,7 +658,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1809217859}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: onStartGameButton
+        m_MethodName: OnStartGameButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1553,7 +1553,7 @@ MonoBehaviour:
   mainScreen: {fileID: 627813207}
   settingsButton: {fileID: 675759030}
   backButton: {fileID: 1918755633}
-  _nextLevelName: Game
+  nextLevelName: Game
 --- !u!1 &1918755631
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,9 +7,9 @@ using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] string _nextLevelName;
+    [SerializeField] string nextLevelName;
 
-    public static bool GameIsPaused = false;
+    public static bool gameIsPaused = false;
     public GameObject pauseMenuUI;
     public GameObject settingsMenu;
 
@@ -20,7 +20,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
+            if (gameIsPaused)
             {
                 Resume();
             }
@@ -35,19 +35,19 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        GameIsPaused = false;
+        gameIsPaused = false;
     }
 
     void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        GameIsPaused = true;
+        gameIsPaused = true;
     }
 
     public void LoadMenu()
     {
-        SceneManager.LoadScene(_nextLevelName);
+        SceneManager.LoadScene(nextLevelName);
     }
 
     public void QuitGame()
@@ -56,12 +56,12 @@ public class PauseMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void onSettingsButton()
+    public void OnSettingsButton()
     {
         settingsMenu.SetActive(true);
     }
 
-    public void onBackButton()
+    public void OnBackButton()
     {
         settingsMenu.SetActive(false);
     }
