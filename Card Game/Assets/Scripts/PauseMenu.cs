@@ -56,12 +56,12 @@ public class PauseMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnSettingsButton()
+    public void onSettingsButton()
     {
         settingsMenu.SetActive(true);
     }
 
-    public void OnBackButton()
+    public void onBackButton()
     {
         settingsMenu.SetActive(false);
     }

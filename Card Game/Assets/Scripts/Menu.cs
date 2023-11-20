@@ -15,17 +15,17 @@ public class Menu : MonoBehaviour
 
     [SerializeField] string nextLevelName;
 
-    public void OnStartGameButton()
+    public void onStartGameButton()
     {
         SceneManager.LoadScene(nextLevelName);
     }
 
-    public void OnSettingsButton()
+    public void onSettingsButton()
     {
         settingsMenu.SetActive(true);
     }
 
-    public void OnBackButton()
+    public void onBackButton()
     {
         settingsMenu.SetActive(false);
     }
