@@ -14,7 +14,7 @@ public class Solitaire : MonoBehaviour
     public GameObject drawnPos;
     public GameObject drawnCard;
 
-    [SerializeField] AudioClip[] _clips;
+   //[SerializeField] AudioClip[] _clips;
 
     public static string[] suits = new string[] { "C", "D", "H", "S" };
     public static string[] values = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
@@ -41,9 +41,9 @@ public class Solitaire : MonoBehaviour
 
     void Start()
     {
-        int index = UnityEngine.Random.Range(0, _clips.Length);
+        /*int index = UnityEngine.Random.Range(0, _clips.Length);
         AudioClip clip = _clips[index];
-        GetComponent<AudioSource>().PlayOneShot(clip);
+        GetComponent<AudioSource>().PlayOneShot(clip);*/
 
         bottoms = new List<string>[] { bottom0, bottom1, bottom2, bottom3, bottom4, bottom5, bottom6 };
         tops = new List<string>[] { top0, top1, top2, top3 };

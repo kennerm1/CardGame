@@ -4038,13 +4038,6 @@ MonoBehaviour:
   drawPilePos: {fileID: 1924632485}
   drawnPos: {fileID: 1673597735}
   drawnCard: {fileID: 0}
-  _clips:
-  - {fileID: 8300000, guid: 4d2799f02ed2b15448e6881921feba57, type: 3}
-  - {fileID: 8300000, guid: f4d692b9a8209244abd06b71eeaf0b88, type: 3}
-  - {fileID: 8300000, guid: ae417c9b7e2e49244b47a091c06c425d, type: 3}
-  - {fileID: 8300000, guid: 5776772fc0515b6469155dc1b846b37d, type: 3}
-  - {fileID: 8300000, guid: 68fb38de35466ac4996fe06db57a2a5c, type: 3}
-  - {fileID: 8300000, guid: af2bc69e015271a45b3ba04efbe40ba3, type: 3}
   deck: []
 --- !u!114 &1895246066
 MonoBehaviour:
@@ -4070,7 +4063,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -8925097286668277469, guid: 8b0c23c7cc2044049a6b5058067a7436, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: e860bf370a293f147bcbfa937626d6e5, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
