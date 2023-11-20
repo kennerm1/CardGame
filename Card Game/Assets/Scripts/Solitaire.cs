@@ -37,6 +37,7 @@ public class Solitaire : MonoBehaviour
     public List<string> deck;
 
     private int randRange;
+    private float previousCardZ;
 
     void Start()
     {
@@ -139,24 +140,26 @@ public class Solitaire : MonoBehaviour
         GameObject drawnCard = GameObject.Find(deck.ElementAt(0)); // find the revealed card gameobject
         if (drawnCard == null)
         {
-            drawnCard = Instantiate(cardPrefab, new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, drawnPos.transform.position.z + 0.03f), Quaternion.identity, drawnPos.transform);
+            drawnCard = Instantiate(cardPrefab, new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, drawnPos.transform.position.z), Quaternion.identity, drawnPos.transform);
             drawnCard.name = deck.ElementAt(0);
             drawnCard.GetComponent<Selectable>().inDeckPile = true;
         }
+        previousCardZ += 0.03f;
         Debug.Log(deck.ElementAt(0));
-        drawnCard.transform.position = new Vector3(drawPilePos.transform.position.x, drawPilePos.transform.position.y, drawPilePos.transform.position.z + 0.03f); // move the current revealed card
-        drawnCard.GetComponent<Selectable>().faceUp = false; // flip it back over
+        //drawnCard.transform.position = new Vector3(drawPilePos.transform.position.x, drawPilePos.transform.position.y, drawPilePos.transform.position.z + 0.03f); // move the current revealed card
         deck.Insert(deck.Count - 1, deck.ElementAt(0)); // add a copy of the revealed card to the back
         deck.RemoveAt(0); // remove the revealed card
+        //drawnCard.GetComponent<Selectable>().faceUp = false; // flip it back over
         drawnCard = GameObject.Find(deck.ElementAt(0)); // set the revealed card to the next card
         if (drawnCard == null)
         {
-            drawnCard = Instantiate(cardPrefab, new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, drawnPos.transform.position.z + 0.03f), Quaternion.identity, drawnPos.transform);
+            drawnCard = Instantiate(cardPrefab, new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, previousCardZ + 0.03f), Quaternion.identity, drawnPos.transform);
             drawnCard.name = deck.ElementAt(0);
             drawnCard.GetComponent<Selectable>().inDeckPile = true;
         }
-        drawnCard.transform.position = new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, drawnPos.transform.position.z + 0.03f); // move the new first card to the right pos
+        drawnCard.transform.position = new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, previousCardZ + 0.03f); // move the new first card to the right pos
         drawnCard.GetComponent<Selectable>().faceUp = true; // flip the new first card
+        drawnCard.transform.position = new Vector3(drawnPos.transform.position.x, drawnPos.transform.position.y, previousCardZ - 0.03f);
     }
 
     // Checks the values of the cards being stacked, only call after determining suit elsewhere
@@ -190,6 +193,10 @@ public class Solitaire : MonoBehaviour
 
                 if (cardSelectable.inDeckPile)
                     deck.RemoveAt(0);
+                if(cardSelectable.inTopPiles)
+                {
+                    tops[cardSelectable.pile].Remove(cardName);
+                }
 
                 for (int i = 0; i < 7; i++) //for every bottom pile
                 {
@@ -255,9 +262,8 @@ public class Solitaire : MonoBehaviour
             Debug.Log("" + Array.IndexOf(values, v) + " " + Array.IndexOf(values, topValue));
             if (Array.IndexOf(values, v) == Array.IndexOf(values, topValue) + 1 || (tops[pileNum].Count == 0 && Array.IndexOf(values, v) == 0)) //empty pile needs to have a value of 0 so that only ace can be placed
             {
-                Debug.Log("wtf");
-                if (tops[pileNum].Count != 0)
-                    card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y - 0.3f, topCard.transform.position.z - 0.03f);
+                if(pileNum != 0)
+                    card.transform.position = new Vector3(topCard.transform.position.x, topCard.transform.position.y, topCard.transform.position.z - 0.03f);
                 else
                     card.transform.position = new Vector3(topPos[pileNum].transform.position.x, topPos[pileNum].transform.position.y, topPos[pileNum].transform.position.z - 0.03f);
                 tops[pileNum].Add(cardName);

@@ -57,6 +57,8 @@ public class UserInput : MonoBehaviour
     {
         Debug.Log("Clicked on deck");
         solitaire.DrawNextCard();
+        slot1 = this.gameObject;
+        slot2 = this.gameObject;
     }
 
     void Card(GameObject selected)
@@ -112,6 +114,7 @@ public class UserInput : MonoBehaviour
             int pileNum = Int32.Parse(name[1]);
             solitaire.CheckTopPile(slot1.name, pileNum);
             slot1 = this.gameObject;
+            slot2 = this.gameObject;
         }
     }
 
@@ -120,13 +123,14 @@ public class UserInput : MonoBehaviour
         Debug.Log("Clicked on tableau");
         if (slot1 != this.gameObject)
         {
-            string[] name = selected.name.Split('p');
+            string[] name = selected.name.Split('u');
             int pileNum = Int32.Parse(name[1]);
             solitaire.CheckBottomPile(slot1.name, pileNum);
             slot1 = this.gameObject;
+            slot2 = this.gameObject;
         }
     }
-
+    /*
     bool Stackable(GameObject selected)
     {
         Selectable s1 = slot1.GetComponent<Selectable>();
@@ -185,7 +189,7 @@ public class UserInput : MonoBehaviour
         return false;
 
     }
-    /*
+    
     void Stack(GameObject selected)
     {
         Selectable s1 = slot1.GetComponent<Selectable>();
