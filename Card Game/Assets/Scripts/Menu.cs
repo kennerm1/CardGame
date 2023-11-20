@@ -13,19 +13,19 @@ public class Menu : MonoBehaviour
     public Button settingsButton;
     public Button backButton;
 
-    [SerializeField] string _nextLevelName;
+    [SerializeField] string nextLevelName;
 
-    public void onStartGameButton()
+    public void OnStartGameButton()
     {
-        SceneManager.LoadScene(_nextLevelName);
+        SceneManager.LoadScene(nextLevelName);
     }
 
-    public void onSettingsButton()
+    public void OnSettingsButton()
     {
         settingsMenu.SetActive(true);
     }
 
-    public void onBackButton()
+    public void OnBackButton()
     {
         settingsMenu.SetActive(false);
     }

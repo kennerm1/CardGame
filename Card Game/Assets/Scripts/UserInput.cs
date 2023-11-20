@@ -55,7 +55,6 @@ public class UserInput : MonoBehaviour
 
     void Deck(GameObject selected)
     {
-        Debug.Log("Clicked on deck");
         solitaire.DrawNextCard();
         slot1 = this.gameObject;
         slot2 = this.gameObject;
@@ -63,7 +62,6 @@ public class UserInput : MonoBehaviour
 
     void Card(GameObject selected)
     {
-        Debug.Log("Clicked on card");
 
         if (!selected.GetComponent<Selectable>().faceUp) //flips the card up if possible
         {
@@ -81,16 +79,13 @@ public class UserInput : MonoBehaviour
         if (slot1 == this.gameObject) //selects card if nothing selected
         {
             slot1 = selected;
-            Debug.Log("Selected first card");
         }
 
         else if (slot1 != selected) //if card is already selected, attempt to move if possible, else select new card
         {
             slot2 = selected;
-            Debug.Log("Selected second card");
             if (slot2.GetComponent<Selectable>().inTableau)
             {
-                Debug.Log("In tableau");
                 if (!solitaire.CheckBottomPile(slot1.name, slot2.GetComponent<Selectable>().pile))
                 {
                     slot1 = selected;
@@ -112,7 +107,6 @@ public class UserInput : MonoBehaviour
     }
     void Top(GameObject selected)
     {
-        Debug.Log("Clicked on top");
         if(slot1 != this.gameObject)
         {
             string[] name = selected.name.Split('p');
@@ -125,7 +119,6 @@ public class UserInput : MonoBehaviour
 
     void Tableau(GameObject selected)
     {
-        Debug.Log("Clicked on tableau");
         if (slot1 != this.gameObject)
         {
             string[] name = selected.name.Split('u');
@@ -135,150 +128,4 @@ public class UserInput : MonoBehaviour
             slot2 = this.gameObject;
         }
     }
-    /*
-    bool Stackable(GameObject selected)
-    {
-        Selectable s1 = slot1.GetComponent<Selectable>();
-        Selectable s2 = selected.GetComponent<Selectable>();
-
-        if (!s2.inDeckPile)
-        {
-            if (s2.top)
-            {
-                if (s1.suit == s2.suit || (s1.value == 1 && s2.suit == null))
-                {
-                    if (s1.value == s2.value + 1)
-                    {
-                        return true;
-                    }
-                }
-
-                else
-                {
-                    return false;
-                }
-            }
-
-            else
-            {
-                if (s1.value == s2.value - 1)
-                {
-                    bool card1Red = true;
-                    bool card2Red = true;
-
-                    if (s1.suit == "C" || s1.suit == "S")
-                    {
-                        card1Red = false;
-                    }
-
-                    if (s2.suit == "C" || s2.suit == "S")
-                    {
-                        card2Red = false;
-                    }
-
-                    if (card1Red == card2Red)
-                    {
-                        print("Not stackable");
-                        return false;
-                    }
-
-                    else
-                    {
-                        print("Stackable");
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-
-    }
-    
-    void Stack(GameObject selected)
-    {
-        Selectable s1 = slot1.GetComponent<Selectable>();
-        Selectable s2 = selected.GetComponent<Selectable>();
-        float yOffset = 0.3f;
-
-        if (s2.top || (!s2.top && s1.value == 13))
-        {
-            yOffset = 0;
-        }
-
-        slot1.transform.position = new Vector3(selected.transform.position.x, selected.transform.position.y - yOffset, selected.transform.position.z -0.01f);
-        slot1.transform.parent = selected.transform;
-
-        if (s1.inDeckPile)
-        {
-            solitaire.CheckPileValue.Remove(slot1.name);
-        }
-
-        else if (s1.top && s2.top && s1.value == 1)
-        {
-            solitaire.topPos[s1.row].GetComponent<Selectable>().value = 0;
-            solitaire.topPos[s1.row].GetComponent<Selectable>().suit = null;
-        }
-
-        else if (s1.top)
-        {
-            solitaire.topPos[s1.row].GetComponent<Selectable>().value = s1.value - 1;
-        }
-
-        else
-        {
-            solitaire.bottoms[s1.row].Remove(slot1.name);
-        }
-
-        s1.inDeckPile = false;
-        s1.row = s2.row;
-
-        if (s2.top)
-        {
-            solitaire.topPos[s1.row].GetComponent<Selectable>().value = s1.value;
-            solitaire.topPos[s1.row].GetComponent<Selectable>().suit = s1.suit;
-            s1.top = true;
-        }
-
-        else
-        {
-            s1.top = false;
-        }
-
-        slot1 = this.gameObject;
-
-    }
-
-    bool Blocked(GameObject selected)
-    {
-        Selected s2 = selected.GetComponent<Selectable>();
-        if (s2.inDeckPile == true)
-        {
-            if (s2.name == solitaire.CheckPileValue.Last())
-            {
-                return false;
-            }
-
-            else
-            {
-                print(s2.name + "is blocked by" + solitaire.CheckPileValue.Last());
-                return true;
-            }
-        }
-
-        else
-        {
-            if (s2.name == solitaire.bottoms[s2.row].Last())
-            {
-                return false;
-            }
-
-            else
-            {
-                return true;
-            }
-        }
-      }
-    }*/
-
 }
